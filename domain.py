@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+
 class DataTable:
     """ Representa uma Tabela de dados
 
@@ -12,6 +15,7 @@ class DataTable:
             data: [Lista de dados]
 
     """
+
     def __init__(self, name):
         """ Constructor
 
@@ -51,6 +55,20 @@ class DataTable:
         relationship = Relationship(name, by, self, on)
         self._referenced.append(relationship)
 
+    def _get_name(self):
+        print("Getter executado!")
+        return self._name
+
+    def _set_name(self, _name):
+        print("Setter executado!")
+        self._name = _name
+
+    def _del_name(self):
+        print("Deletter executado!")
+        raise AttributeError("Não pode deletar esse atributo")
+
+    name = property(_get_name, _set_name, _del_name)
+
 
 class Column:
     """ Representa uma coluna em um DataTable
@@ -67,7 +85,7 @@ class Column:
     """
 
     def __init__(self, name, kind, description=""):
-        """Cpnstructor
+        """Constructor
 
             Args:
                 :param name: Nome da coluna
@@ -77,6 +95,40 @@ class Column:
         self._name = name
         self._kind = kind
         self._description = description
+        self._is_pk = False
+
+    def __str__(self):
+        _str = "Col: {} : {} {}".format(self._name, self._kind, self._description)
+
+        return _str
+
+    def _validate(cls, kind, data):
+        if kind == "bigint":
+            if isinstance(data, int):
+                return True
+            return False
+        elif kind == 'varchar':
+            if isinstance(data, str):
+                return True
+            return False
+        elif kind == 'numeric':
+            try:
+                val = Decimal(data)
+            except:
+                return False
+            return True
+
+    validate = classmethod(_validate)
+
+
+class PrimaryKey(Column):
+    def __init__(self, table, name, kind, description=""):
+        super().__init__(name, kind, description=description)
+        self._is_pk = True
+
+    def __str__(self):
+        _str = "Col: {} : {} {} ".format(self._name, self._kind, self._description)
+        return "{} - {}".format('PK', _str)
 
 
 class Relationship:
@@ -86,6 +138,7 @@ class Relationship:
         Em qual coluna ele existe, de onde vem e para onde vai
 
     """
+
     def __init__(self, name, _from, to, on):
         """ Constructor
 
@@ -99,5 +152,3 @@ class Relationship:
         self._from = _from
         self._to = to
         self._on = on
-
-
