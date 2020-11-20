@@ -65,5 +65,5 @@ class HTMLTestRunner:
 
 
 if __name__ == '__main__':
-    suite = unittest.TestLoader().discover('.')
+    suite = unittest.TestLoader().discover('..')
     HTMLTestRunner().run(suite)

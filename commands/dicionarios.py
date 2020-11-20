@@ -1,7 +1,6 @@
 # coding: UTF-8
-
 import os
-for meta_file in os.listdir('data/meta-data'):
+for meta_file in os.listdir('../data/meta-data'):
     print(meta_file)
 
 
@@ -25,11 +24,11 @@ def read_meta_data(path):
     return meta_data
 
 
-print(read_meta_data('data/meta-data/Instituicao.txt'))
+print(read_meta_data('../data/meta-data/Instituicao.txt'))
 
 
 def read_lines(filename):
-    _file = open(os.path.join("data/meta-data", filename), "rt")
+    _file = open(os.path.join("../data/meta-data", filename), "rt")
     data = _file.read().split("\n")
     _file.close()
     return data
@@ -69,7 +68,7 @@ def main():
     # dicionario identificador -> nome entidade
     keys = {}
 
-    for meta_data_file in os.listdir("data/meta-data"):
+    for meta_data_file in os.listdir("../data/meta-data"):
         table_name = extract_entity_name(meta_data_file)
         atributtes = read_metadata(meta_data_file)
         identifier = atributtes[0][0]
