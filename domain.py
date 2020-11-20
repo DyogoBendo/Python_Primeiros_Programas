@@ -28,10 +28,15 @@ class DataTable:
         self._references = []
         self._referenced = []
 
-    def add_column(self, name, kind, description):
-        column = Column(name, kind, description)
+    def add_column(self, name, kind, description=""):
+        self._validate_kind(kind)
+        column = Column(name, kind, description=description)
         self._columns.append(column)
         return column
+
+    def _validate_kind(self, kind):
+        if not kind in ('bigint', 'numeric', 'varchar'):
+            raise Exception("Tipo inválido")
 
     def add_references(self, name, to, on):
         """ Cria uma referência dessa tabela para outra tabela

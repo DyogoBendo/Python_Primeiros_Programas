@@ -3,7 +3,6 @@ import io
 import sys
 import urllib.request as request
 
-
 BUFF_SIZE = 1024
 
 
@@ -41,7 +40,6 @@ def main():
     response.close()
     out_file.close()
     print("Finished")
-
 
 if __name__ == '__main__':
     main()
